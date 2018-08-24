@@ -230,7 +230,7 @@ var SVGtoPDF = function(doc, svg, x, y, options) {
         })(this);
         return result;
       };
-      let parser = new StringParser(xml.trim()), result, child, error = false; 
+      let parser = new StringParser(xml.trim()), result, child, error = false;
       let recursive = function() {
         let temp, child;
         if (temp = parser.match(/^<([\w:.-]+)\s*/, true)) { // Opening tag
@@ -965,7 +965,7 @@ var SVGtoPDF = function(doc, svg, x, y, options) {
           }
           this.addCommand(data);
         }
-        return this;        
+        return this;
       };
       this.mergeShape = function(shape) {
         for (let i = 0; i < shape.pathCommands.length; i++) {
@@ -1788,15 +1788,17 @@ var SVGtoPDF = function(doc, svg, x, y, options) {
               for (let j = 0; j < subPaths.length; j++) {
                 if (isEqual(subPaths[j].totalLength, 0)) {
                   if ((lineCap === 'square' || lineCap === 'round') && lineWidth > 0) {
-                    let x = subPaths[j].startPoint[0],
-                        y = subPaths[j].startPoint[1];
-                    docFillColor(stroke);
-                    if (lineCap === 'square') {
-                      doc.rect(x - 0.5 * lineWidth, y - 0.5 * lineWidth, lineWidth, lineWidth);
-                    } else if (lineCap === 'round') {
-                      doc.circle(x, y, 0.5 * lineWidth);
+                      if (subPaths[j].startPoint) {
+                      let x = subPaths[j].startPoint[0],
+                          y = subPaths[j].startPoint[1];
+                      docFillColor(stroke);
+                      if (lineCap === 'square') {
+                        doc.rect(x - 0.5 * lineWidth, y - 0.5 * lineWidth, lineWidth, lineWidth);
+                      } else if (lineCap === 'round') {
+                        doc.circle(x, y, 0.5 * lineWidth);
+                      }
+                      doc.fill();
                     }
-                    doc.fill();
                   }
                 }
               }
